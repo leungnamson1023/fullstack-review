@@ -13,7 +13,7 @@ mongoose.connect('mongodb://localhost/fetcher', options, (err, db) => {
 });
 
 let repoSchema = mongoose.Schema({
-  // TODO: your schema here!
+
   id: Number,
   repoName: String,
   description: String,
@@ -23,11 +23,11 @@ let repoSchema = mongoose.Schema({
 
 let Repo = mongoose.model('Repo', repoSchema);
 
-let save = function(gitHub) {
+let save = function(gitHub, cb) {
 
   var results = [];
   var gitArray = JSON.parse(gitHub);
-
+  var count = 0;
   for (var i = 0; i < gitArray.length; i++) {
     var gitObj = {};
 
@@ -42,9 +42,11 @@ let save = function(gitHub) {
     repoObj.save(function(err) {
       if (err) {
         console.log(err);
-      } else {
-        console.log('success');
-      }
+      } 
+        count++;
+        if (count === gitArray.length) {
+          cb('success');
+        }
     });
   results.push(repoObj);
   }
@@ -59,7 +61,7 @@ var find = function(cb) {
       console.log('testttt', repo);
       cb(repo);
     }
-  }).limit(25).sort({repoName: -1});
+  })
 }
 
 module.exports.save = save;

@@ -8,7 +8,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      repos: []
+      repos: [],
     }
     this.search = this.search.bind(this);
   }
@@ -30,8 +30,9 @@ class App extends React.Component {
       url: '/repos',
       method: 'POST',
       data: term,
+      contentType: 'application/json',
       success: (data) => {
-        console.log(data, 'has been sent!');
+        this.setState({ repos: data});
       },
       error: (err) => {
         console.log('failed', err);
