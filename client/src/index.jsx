@@ -14,12 +14,12 @@ class App extends React.Component {
   }
 
   componentDidMount () {
-    $.get('/repos', function(repo) {
-      //
-    }).done(repo => { //once complete
-      this.setState({
-        repos: repo
-      });
+   $.ajax({
+     url: '/repos',
+     method: 'GET',
+     success: (data) => {
+        this.setState({ repos: data});
+      }
     });
   }
 
