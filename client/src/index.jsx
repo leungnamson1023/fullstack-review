@@ -13,7 +13,7 @@ class App extends React.Component {
     this.search = this.search.bind(this);
   }
 
-  componentWillMount () {
+  componentDidMount () {
     $.get('/repos', function(repo) {
       //
     }).done(repo => { //once complete
@@ -37,7 +37,6 @@ class App extends React.Component {
         console.log('failed', err);
       }
     });
-    // TODO
   }
 
   render () {
@@ -45,12 +44,12 @@ class App extends React.Component {
       <h1>Github Fetcher</h1>
       <RepoList repos={this.state.repos}/>
       <Search onSearch={this.search}/>
-        <div className="list">
-          {this.state.repos.map((git) => <div>Owner: {git.owner} Repo: {git.repoName}</div>)}
+        <div className="list" onChange={() => this.componentDidMount()}>
+          {this.state.repos.map((git) => <div className="list">Owner: {git.owner} <a className='repo' href={git.htmlUrl}>Repo: {git.repoName}</a></div>)}
         </div>
     </div>)
   }
-  
+
 }
 
 ReactDOM.render(<App />, document.getElementById('app'));

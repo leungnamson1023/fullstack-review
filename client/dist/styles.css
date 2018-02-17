@@ -1,3 +1,7 @@
 .list {
   padding: 15px;
 }
+
+.repo:link {
+  font-weight: bold;
+}

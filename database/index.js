@@ -59,7 +59,7 @@ var find = function(cb) {
       console.log('testttt', repo);
       cb(repo);
     }
-  }).limit(25)
+  }).limit(25).sort({repoName: -1});
 }
 
 module.exports.save = save;
