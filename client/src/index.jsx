@@ -10,11 +10,33 @@ class App extends React.Component {
     this.state = { 
       repos: []
     }
-
+    this.search = this.search.bind(this);
   }
 
+  componentWillMount () {
+    $.get('/repos', function(repo) {
+      //
+    }).done(repo => { //once complete
+      this.setState({
+        repos: repo
+      });
+    });
+  }
+
+
   search (term) {
-    console.log(`${term} was searched`);
+  //  console.log(`${term} was searched`);
+    $.ajax({
+      url: '/repos',
+      method: 'POST',
+      data: term,
+      success: (data) => {
+        console.log(data, 'has been sent!');
+      },
+      error: (err) => {
+        console.log('failed', err);
+      }
+    });
     // TODO
   }
 
@@ -22,9 +44,13 @@ class App extends React.Component {
     return (<div>
       <h1>Github Fetcher</h1>
       <RepoList repos={this.state.repos}/>
-      <Search onSearch={this.search.bind(this)}/>
+      <Search onSearch={this.search}/>
+        <div className="list">
+          {this.state.repos.map((git) => <div>Owner: {git.owner} Repo: {git.repoName}</div>)}
+        </div>
     </div>)
   }
+  
 }
 
 ReactDOM.render(<App />, document.getElementById('app'));
